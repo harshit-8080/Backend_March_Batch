@@ -7,21 +7,26 @@ app.use(bodyParser.json());
 // how to create a new middleware
 function middle1(req, res, next) {
   console.log("middle1 is called");
-  let name = req.body.name;
-  console.log(name);
-  if (name == "Mouneeswar") {
-    res.json({ msg: "go back" });
-  }
   next();
 }
+
+function middle2(req, res, next) {
+  console.log("middle2 is called");
+  next();
+}
+
 // how to use the middleware
-app.use(middle1);
+// app.use(middle2);
+// app.use(middle1);
 
 // 1st api
-app.post("/dashboard", (req, res) => {
+app.post("/dashboard", middle1, middle2, (req, res) => {
   console.log("line 16 ===>");
-  // best practice 1st
   res.json({ message: "this is message 2" });
+});
+
+app.get("/canteen", middle2, (req, res) => {
+  res.json({ message: "canteen area" });
 });
 
 /// server starting
