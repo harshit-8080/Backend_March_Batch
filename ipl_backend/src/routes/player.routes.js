@@ -1,9 +1,9 @@
 const express = require("express");
+const PlayerController = require("../controllers/player.controller");
 
+// creating router
 const PlayerRouter = express.Router();
 
-PlayerRouter.get("/player/test", (req, res) => {
-  res.json({ Message: "This is a test message from player" });
-});
+PlayerRouter.get("/player/test", PlayerController.playerTest);
 
 module.exports = PlayerRouter;
