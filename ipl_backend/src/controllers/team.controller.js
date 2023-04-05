@@ -22,10 +22,25 @@ const getAllTeams = async (req, res) => {
   });
 };
 
+const getATeam = async (req, res) => {
+  const teamId = req.params.teamId;
+
+  const response = await Team.findById(teamId);
+
+  res.json({
+    message: response,
+  });
+};
+
+/**
+ * req.body
+ * req.params
+ * req.query
+ */
+
 module.exports = {
   teamTest,
   createTeam,
   getAllTeams,
+  getATeam,
 };
-
-

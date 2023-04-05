@@ -14,4 +14,9 @@ TeamRouter.post("/team", TeamController.createTeam);
 // api to get all team
 TeamRouter.get("/team", TeamController.getAllTeams);
 
+// api to get a team
+TeamRouter.get("/team/:teamId", TeamController.getATeam);
+
+// delete a team ?
+
 module.exports = TeamRouter;
