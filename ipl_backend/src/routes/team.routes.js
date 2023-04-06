@@ -17,6 +17,9 @@ TeamRouter.get("/team", TeamController.getAllTeams);
 // api to get a team
 TeamRouter.get("/team/:teamId", TeamController.getATeam);
 
+// get a ipl team with player information..
+TeamRouter.get("/detail/:teamId", TeamController.getTeamWithID);
+
 // delete a team  ===> HW
 
 // update the team info ===> HW

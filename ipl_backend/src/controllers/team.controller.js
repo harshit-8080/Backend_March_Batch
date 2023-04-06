@@ -15,7 +15,7 @@ const createTeam = async (req, res) => {
 };
 
 const getAllTeams = async (req, res) => {
-  const response = await Team.find();
+  const response = await Team.find().populate("players");
 
   res.json({
     message: response,
@@ -32,6 +32,18 @@ const getATeam = async (req, res) => {
   });
 };
 
+const getTeamWithID = async (req, res) => {
+  try {
+    const team = await Team.findById(req.params.teamId).populate("players");
+
+    if (team) {
+      res.json({ Messgae: team });
+    } else {
+      res.json({ message: "team id not correct" });
+    }
+  } catch (error) {}
+};
+
 /**
  * req.body
  * req.params
@@ -43,4 +55,5 @@ module.exports = {
   createTeam,
   getAllTeams,
   getATeam,
+  getTeamWithID,
 };

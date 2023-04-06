@@ -1,4 +1,5 @@
 const Player = require("../models/player.model");
+const Team = require("../models/team.models");
 
 const playerTest = async (req, res) => {
   res.json({ Message: "This is a test message from player" });
@@ -74,6 +75,29 @@ const deletePlayer = async (req, res) => {
   }
 };
 
+const addPlayer = async (req, res) => {
+  try {
+    const team = await Team.findById(req.params.teamId);
+
+    if (team) {
+      const player = await Player.findById(req.params.playerId);
+      if (player) {
+        console.log(team);
+        team.players.push(player._id);
+        await team.save();
+        res.json({ Messages: "Ok" });
+      } else {
+        res.json({ Message: " Team is correct but Player id not found" });
+      }
+    } else {
+      res.json({ Message: "Team id not found" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ Message: "Internal Server error" });
+  }
+};
+
 module.exports = {
   playerTest,
   createPlayer,
@@ -81,4 +105,5 @@ module.exports = {
   getPlayerDetail,
   updatePlayerInfo,
   deletePlayer,
+  addPlayer,
 };

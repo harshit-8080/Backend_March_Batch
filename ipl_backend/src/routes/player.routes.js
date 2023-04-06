@@ -23,7 +23,11 @@ PlayerRouter.patch("/player/:playerId", PlayerController.updatePlayerInfo);
 // delete the player
 PlayerRouter.delete("/player/:playerId", PlayerController.deletePlayer);
 
-// add player to a team....
+// add a player to a team....
+PlayerRouter.patch(
+  "/team/:teamId/player/:playerId",
+  PlayerController.addPlayer
+);
 
 ////////////////////////////////////////////////////////////
 
