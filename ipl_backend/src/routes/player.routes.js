@@ -18,10 +18,12 @@ PlayerRouter.get("/player/:playerId", PlayerController.getPlayerDetail);
 ////    ////////////////////////////////////////////////////
 
 // update the player info
+PlayerRouter.patch("/player/:playerId", PlayerController.updatePlayerInfo);
 
 // delete the player
+PlayerRouter.delete("/player/:playerId", PlayerController.deletePlayer);
 
-// add player to a team
+// add player to a team....
 
 ////////////////////////////////////////////////////////////
 

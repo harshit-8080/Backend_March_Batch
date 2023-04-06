@@ -17,6 +17,8 @@ TeamRouter.get("/team", TeamController.getAllTeams);
 // api to get a team
 TeamRouter.get("/team/:teamId", TeamController.getATeam);
 
-// delete a team ?
+// delete a team  ===> HW
+
+// update the team info ===> HW
 
 module.exports = TeamRouter;
