@@ -1,5 +1,9 @@
 const Admin = require("../models/admin.model");
-const { generateSalt, hashPassword } = require("../services/password");
+const {
+  generateSalt,
+  hashPassword,
+  decodePassword,
+} = require("../services/password");
 
 const signup = async (req, res) => {
   try {
@@ -31,7 +35,27 @@ const getAllAdmins = async (req, res) => {
   }
 };
 
+const login = async (req, res) => {
+  // this line will check if email is valid or not...
+  const checkuser = await Admin.findOne({ email: req.body.email });
+  if (checkuser) {
+    // this line will check if given password is same as hashed password or not...
+    const checkPassword = decodePassword(req.body.password, checkuser.password);
+
+    if (checkPassword) {
+      // if checkPassword is true then login
+      return res.json({ Message: "You are now logged in" });
+    } else {
+      // if checkPassword is false then password is invalid
+      return res.json({ Message: "Your password is incorrect" });
+    }
+  } else {
+    return res.json({ Message: "user/emailId not found" });
+  }
+};
+
 module.exports = {
   signup,
   getAllAdmins,
+  login,
 };
