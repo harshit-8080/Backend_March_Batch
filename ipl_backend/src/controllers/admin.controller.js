@@ -1,4 +1,9 @@
 const Admin = require("../models/admin.model");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+
 const {
   generateSalt,
   hashPassword,
@@ -44,7 +49,15 @@ const login = async (req, res) => {
 
     if (checkPassword) {
       // if checkPassword is true then login
-      return res.json({ Message: "You are now logged in" });
+      const email = checkuser.email;
+
+      // creating jwt token
+      const token = jwt.sign({ email }, JWT_SECRET_KEY, { expiresIn: "5d" });
+
+      return res.json({
+        Message: "You are now logged in",
+        Token: token,
+      });
     } else {
       // if checkPassword is false then password is invalid
       return res.json({ Message: "Your password is incorrect" });
@@ -59,4 +72,3 @@ module.exports = {
   getAllAdmins,
   login,
 };
-
