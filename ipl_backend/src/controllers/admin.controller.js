@@ -59,3 +59,4 @@ module.exports = {
   getAllAdmins,
   login,
 };
+
