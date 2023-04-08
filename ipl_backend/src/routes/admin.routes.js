@@ -14,6 +14,8 @@ const verifyToken = async (req, res, next) => {
     // verify the token
     const payload = await jwt.verify(token.split(" ")[1], JWT_SECRET_KEY);
     if (payload) {
+      console.log(payload.email);
+      req.email = payload.email;
       next();
     } else {
       return res.json({ Message: "User not allowed" });
@@ -31,5 +33,15 @@ AdminRouter.post("/admin/login", AdminControlller.login);
 
 //get all admin
 AdminRouter.get("/admins", verifyToken, AdminControlller.getAllAdmins);
+
+// Request OTP
+AdminRouter.get(
+  "/request/otp",
+  verifyToken,
+  AdminControlller.requestAndSentOTP
+);
+
+// verify otp
+AdminRouter.post("/verify/otp", verifyToken, AdminControlller.verifyOTP);
 
 module.exports = AdminRouter;

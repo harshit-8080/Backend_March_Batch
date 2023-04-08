@@ -3,6 +3,8 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+const accountSid = process.env.accountSid;
+const authToken = process.env.authToken;
 
 const {
   generateSalt,
@@ -67,8 +69,51 @@ const login = async (req, res) => {
   }
 };
 
+const requestAndSentOTP = async (req, res) => {
+  const checkUser = await Admin.findOne({ email: req.email });
+  console.log(checkUser);
+
+  /// generating otp and saving to admin otp attribute or key field
+  const generateOtp = Math.floor(10000 + Math.random() * 900000);
+  checkUser.otp = generateOtp;
+  await checkUser.save();
+
+  /// use twillio to send otp to admins
+
+  const client = require("twilio")(accountSid, authToken);
+  const response = await client.messages.create({
+    body: `Your OTP ${generateOtp} `,
+    from: "+15077282513",
+    to: "+919172635173",
+  });
+
+  res.json({ Message: "OTP SENT TO YOUR PHONE" });
+};
+
+const verifyOTP = async (req, res) => {
+  const checkUser = await Admin.findOne({ email: req.email });
+
+  if (checkUser) {
+    /// check if user given otp and otp saved in database same or not
+    if (checkUser.otp == req.body.otp) {
+      /// if both otp matches verifed = true
+      checkUser.verified = true;
+      await checkUser.save();
+
+      return res.json({ Message: "You are verified now" });
+    } else {
+      /// if both otp not matches verifed = false
+      return res.json({ Message: "Your OTP is Wrong" });
+    }
+  } else {
+    return res.json({ Messgage: "User not found" });
+  }
+};
+
 module.exports = {
   signup,
   getAllAdmins,
   login,
+  requestAndSentOTP,
+  verifyOTP,
 };

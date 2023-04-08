@@ -26,6 +26,9 @@ const AdminSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  otp: {
+    type: String,
+  },
 });
 
 const Admin = mongoose.model("Admin", AdminSchema);
