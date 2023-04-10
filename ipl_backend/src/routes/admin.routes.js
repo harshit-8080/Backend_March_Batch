@@ -6,6 +6,7 @@ const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 const AdminRouter = express.Router();
 
+//middleware
 const verifyToken = async (req, res, next) => {
   const token = req.get("Authorization");
   //   console.log("Token: ", token.split(" ")[1]);
