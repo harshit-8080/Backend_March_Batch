@@ -14,6 +14,7 @@ app.get("/", (req, res) => {
   res.json({
     message: "Ok",
     response: "health check added",
+    result: "last class ",
   });
 });
 
